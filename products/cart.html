@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+ .cart-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.cart-item img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.cart-item h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.cart-item p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.cart-item input[type="number"] {
+  width: 50px;
+  height: 30px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+.cart-item button.delete-btn {
+  background-color: red;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cart-item button.delete-btn:hover {
+  background-color: darkred;
+}
+
+#total-amount {
+    font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+#total-quantity {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <!-- Add a new element to display the overall total amount -->
+<p id="overall-total-amount"></p>
+    <div id="cart-container">
+
+    </div>
+    <p id="total-amount"></p>
+    <p id="total-quantity"></p>
+    <script>
+// Get the cart data from local storage
+let cartData = localStorage.getItem('cart');
+if (!cartData) {
+  cartData = [];
+} else {
+  cartData = JSON.parse(cartData);
+}
+
+// Display the cart data in add.html
+const cartContainer = document.getElementById('cart-container');
+cartData.forEach((item) => {
+  const cartItem = `
+    <div class="cart-item">
+      <img src="${item.image}" alt="Product Image">
+      <h2>${item.name}</h2>
+      <p>Rating: ${item.rating}</p>
+      <p>Cost: ${item.cost}</p>
+      <input type="number" value="1" id="quantity-${item.name}" min="1">
+      <p id="total-amount-${item.name}">Total Amount: ${item.cost}</p>
+      <button class="delete-btn" id="delete-${item.name}">Delete</button>
+    </div>
+  `;
+  cartContainer.innerHTML += cartItem;
+});
+
+// Add event listeners to delete buttons
+const deleteButtons = document.querySelectorAll('.delete-btn');
+deleteButtons.forEach((deleteButton) => {
+  deleteButton.addEventListener('click', (e) => {
+    const itemName = e.target.id.replace('delete-', '');
+    const index = cartData.findIndex((item) => item.name === itemName);
+    if (index !== -1) {
+      cartData.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cartData));
+      location.reload();
+    }
+  });
+});
+// ...
+// ...
+
+// Add event listeners to quantity inputs
+const quantityInputs = document.querySelectorAll('input[type="number"]');
+quantityInputs.forEach((quantityInput) => {
+  quantityInput.addEventListener('input', (e) => {
+    const itemName = e.target.id.replace('quantity-', '');
+    const item = cartData.find((item) => item.name === itemName);
+    const quantityInputValue = e.target.value;
+    let quantity = parseInt(quantityInputValue);
+    if (isNaN(quantity) || quantity < 1) {
+      alert('Invalid quantity. Please enter a positive integer.');
+      e.target.value = 1;
+      quantity = 1;
+    }
+    const totalAmountForItem = quantity * parseFloat(item.cost);
+    document.getElementById(`total-amount-${itemName}`).textContent = `Total Amount: $${totalAmountForItem.toFixed(2)}`;
+    updateOverallTotalAmountAndQuantity();
+  });
+});
+
+// ...
+
+function updateOverallTotalAmountAndQuantity() {
+  const overallTotalAmountContainer = document.getElementById('overall-total-amount');
+  const overallTotalQuantityContainer = document.getElementById('total-quantity');
+  let overallTotalAmount = 0;
+  let overallTotalQuantity = 0;
+  
+  cartData.forEach((cartItem) => {
+    const quantityInput = document.getElementById(`quantity-${cartItem.name}`);
+    const quantityValue = parseInt(quantityInput.value);
+    overallTotalAmount += quantityValue * parseFloat(cartItem.cost);
+    overallTotalQuantity += quantityValue;
+  });
+  
+  overallTotalAmountContainer.textContent = `Overall Total Amount: $${overallTotalAmount.toFixed(2)}`;
+  overallTotalQuantityContainer.textContent = `Total Quantity: ${overallTotalQuantity}`;
+}
+    </script>
+</body>
+</html>

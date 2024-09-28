@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="men.css">
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<nav>
+  <div class="logo">Reebok</div>
+  <i class="fa-solid fa-bars toggle"></i>
+  <div class="menu">
+    
+    <ul >
+      <li><a href="index.html">Home</a></li>
+      <li><a href="women.html">Women</a></li>
+    </ul>
+  </div>
+</nav>
+
+   <div id="link">
+  <a href="save.html">save</a>
+  
+</div>
+<a href="cart.html">cart</a>
+<div id="content">
+<div id="cart">
+  <img src="https://previews.123rf.com/images/evaletova/evaletova1212/evaletova121200398/17014452-male-fashion-clothes-collection.jpg" alt="men's Wear Image 2">
+  <i class="fa fa-heart heart-icon"></i>
+<p id="name">T Shirt</p>
+  <div id="cont">
+<p id="rating">4.5 rating</p>
+<p id="cost">90rs</p>
+  </div>
+  <p id="addcart"> ADD CART</p>
+
+  
+</div>
+<div id="cart">
+  <img src="https://images.meesho.com/images/products/216426123/e1q4g_512.webp"alt="men's Wear Image 2">
+  <i class="fa fa-heart heart-icon"></i>
+<p id="name">T Shirt</p>
+  <div id="cont">
+<p id="rating">4.5 rating</p>
+<p id="cost">40rs</p>
+  </div>
+  <p id="addcart"> ADD CART</p>
+
+  
+</div>
+
+<div id="cart">
+  <img src= "https://images.meesho.com/images/products/436953370/nlnzj_512.webp" alt="men's Wear Image 2">
+  <i class="fa fa-heart heart-icon"></i>
+<p id="name">T Shirt</p>
+  <div id="cont">
+<p id="rating">4.5 rating</p>
+<p id="cost">40rs</p>
+  </div>
+  <p id="addcart"> ADD CART</p>
+
+  
+</div>
+<div id="cart">
+  <img src= "https://images.meesho.com/images/products/392630888/3rh8e_400.webp"alt="men's Wear Image 2">
+  <i class="fa fa-heart heart-icon"></i>
+<p id="name">T Shirt</p>
+  <div id="cont">
+<p id="rating">4.5 rating</p>
+<p id="cost">40rs</p>
+  </div>
+  <p id="addcart"> ADD CART</p>
+
+  
+</div>
+<div id="cart">
+  <img src="https://images.meesho.com/images/products/377911380/vxbv8_400.webp"alt="men's Wear Image 2">
+  <i class="fa fa-heart heart-icon"></i>
+<p id="name">T Shirt</p>
+  <div id="cont">
+<p id="rating">4.5 rating</p>
+<p id="cost">40rs</p>
+  </div>
+  <p id="addcart"> ADD CART</p>
+
+  
+</div>
+
+</div>
+
+
+<script>
+  // Get all cart elements
+const cartElements = document.querySelectorAll('#cart');
+
+// Add event listener to each cart element
+cartElements.forEach((cartElement) => {
+  const addCartButton = cartElement.querySelector('#addcart');
+  addCartButton.addEventListener('click', (e) => {
+    // Get the data from the cart element
+    const data = {
+      name: cartElement.querySelector('#name').textContent,
+      rating: cartElement.querySelector('#rating').textContent,
+      cost: cartElement.querySelector('#cost').textContent,
+      image: cartElement.querySelector('img').src,
+    };
+
+    // Get the existing cart data from local storage
+    let cartData = localStorage.getItem('cart');
+    if (!cartData) {
+      cartData = [];
+    } else {
+      cartData = JSON.parse(cartData);
+    }
+
+    // Add the new data to the cart data
+    cartData.push(data);
+
+    // Store the updated cart data in local storage
+    localStorage.setItem('cart', JSON.stringify(cartData));
+  });
+});
+</script>
+<script src="men.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

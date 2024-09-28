@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      /* Make the form responsive */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 300px;
+  margin: 40px auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Style the input fields */
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* Style the checkbox */
+input[type="checkbox"] {
+  margin: 10px;
+}
+
+/* Style the login button */
+input[type="submit"] {
+  background-color: orange;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+/* Make the login button responsive */
+input[type="submit"]:hover {
+  background-color: #ff9900;
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 600px) {
+  form {
+    max-width: 200px;
+  }
+  .agree{
+    font-size: 10px;
+}
+
+}
+
+@media (max-width: 400px) {
+  form {
+    max-width: 150px;
+  }
+  .agree{
+    font-size: 10px;
+}
+#Signup{
+  font-size: 10px;
+  
+}
+}
+
+/* Add CSS for error messages */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+/* Add CSS for terms and conditions checkbox */
+/* .terms-checkbox {
+  display: flex;
+  align-items: center;
+} */
+
+/* .terms-checkbox input[type="checkbox"] {
+  margin-right: 10px;
+} */
+h2{
+  text-align: center;
+}
+#Signup{
+  text-decoration: none;
+  color: aqua;
+
+}
+li{
+  list-style-type: none;
+  
+}
+
+    </style>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="login-form">
+        <!-- <label for="username">Username:</label> -->
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <span id="username-error" class="error"></span><br><br>
+        <!-- <label for="password">Password:</label> -->
+        <input type="password" id="password" name="password" required placeholder="Password">
+        <span id="password-error" class="error"></span><br><br>
+        <div>
+        <input type="checkbox" id="terms" required>
+        <label for="terms" class="agree">I agree to the terms and conditions</label>
+        <span id="terms-error" class="error"></span><br><br>
+      </div>
+        <input type="submit" value="Login">
+        <li><a href="signup.html" id="Signup">Create New Account</a></li>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<script>
+  document.querySelector("#login-form").addEventListener("submit", logindata);
+let login = false;
+
+function logindata(event) {
+  event.preventDefault();
+
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+  let terms = document.getElementById("terms").checked;
+  let signup_details = JSON.parse(localStorage.getItem("userdetails"));
+
+  if (!terms) {
+    document.getElementById("terms-error").innerText = "Please agree to the terms and conditions";
+    return;
+  }
+
+  if (signup_details) {
+    let foundUser = signup_details.find((element) => {
+      return element.name === username && element.password === password;
+    });
+    if (foundUser) {
+      login = true;
+      localStorage.setItem("token", JSON.stringify({ login: login }));
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("username-error").innerText = "Invalid username or password";
+      document.getElementById("password-error").innerText = "Invalid username or password";
+    
+      setTimeout(function() {
+        window.location.reload();
+      }, 3000); 
+    }
+  } else {
+    document.getElementById("username-error").innerText = "No user data found";
+  }
+}
+</script>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+      body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            
+        }
+        .container{
+          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+          width: 300px;
+          height: 400px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+       /* align-items: center;    */
+          padding-left: 30px;
+        }
+        input{
+         border-color: aquamarine;
+          box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+          width: 80%;
+          border-radius: 20px;
+          padding: 10px;
+          color:aqua;
+          
+        }
+        input:focus {
+       outline: none;  }
+     h2{
+      text-align: center;
+     }
+
+</style>
+</head>
+<body>
+      
+        <!-- signup.html -->
+         <div  class="container">
+<form id="signup-form">
+  <h2>Signup</h2>
+    
+    <input type="text" id="username" name="username" value="" placeholder="Username" required><br><br>
+
+    <input type="email" id="email" name="email" value=""  placeholder="Email" required><br><br>
+
+    <input type="password" id="password" name="password"  value="" placeholder="Password" required><br><br>
+
+    <input type="password" id="confirm-password" name="confirm-password"  value="" placeholder="onfirm-password"><br><br>
+    <input type="submit" value="Signup">
+  </form> 
+</div>
+</body>
+
+<script>
+  document.querySelector("#signup-form").addEventListener("submit",signupdata);
+let signupdetails=[];
+
+if(localStorage.getItem("userdetails")!==null){
+  signupdetails=JSON.parse(localStorage.getItem("userdetails"));
+}
+else{
+   signupdetails;
+}
+
+function signupdata(){
+  event.preventDefault();
+    let details={
+        name:document.querySelector("#username").value,
+        email:document.querySelector("#email").value,
+        password:document.querySelector("#password").value,
+        confirm_password:document.querySelector("#confirm-password").value
+        
+    };
+    if(details.password===details.confirm_password){
+        signupdetails.push(details);
+        localStorage.setItem("userdetails",JSON.stringify(signupdetails));  
+        window.location.href = "login.html";
+    }
+  else{
+         alert("confirm password not matched with password ");
+         
+  }
+
+
+}
+</script>
+</html>

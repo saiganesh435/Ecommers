@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+ <style>
+    #saved-products {
+display: grid;
+grid-template-columns: repeat(5,1fr);
+gap: 10px;
+}
+
+.product {
+  margin: 20px;
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.product .info {
+  padding: 10px;
+}
+
+.product .info p {
+  margin-bottom: 10px;
+}
+.product>p{
+    background-color:skyblue;
+    padding:5px;
+    margin:5px;
+    border-radius:10px;
+    text-align: center;
+}
+   </style>
+</head>
+<body>
+  <a href="cart.html">cart</a>
+    <h1>Saved Products</h1>
+    <div id="saved-products">
+        <!-- products will be displayed here -->
+         
+    </div>
+    <script>
+      const savedProductsContainer = document.getElementById('saved-products');
+
+const likedProducts = JSON.parse(localStorage.getItem('likedProducts') || '[]');
+
+likedProducts.forEach((product, index) => {
+  const productHTML = `
+    <div class="product">
+      <img src="${product.image}" alt="${product.name}">
+      <div class="info">
+        <p>${product.name}</p>
+        <p>Rating: ${product.rating}</p>
+        <p>Price: ${product.price}</p>
+      </div>
+      <button class="delete-btn" data-index="${index}">DELETE</button>
+      <p>ADD CART</p>
+    </div>
+  `;
+  savedProductsContainer.innerHTML += productHTML;
+});
+
+// Add event listener to delete buttons
+document.querySelectorAll('.delete-btn').forEach((button) => {
+  button.addEventListener('click', (e) => {
+    const index = parseInt(e.target.dataset.index);
+    likedProducts.splice(index, 1);
+    localStorage.setItem('likedProducts', JSON.stringify(likedProducts));
+    window.location.reload();
+  });
+});
+
+
+    </script>
+</body>
+</html>
